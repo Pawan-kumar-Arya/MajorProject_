@@ -4,37 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Signup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-image: url('https://tse3.mm.bing.net/th?id=OIP.6-Z7WuZTVoOiIdKzSMMsWwHaFj&pid=Api&P=0&h=180');
             background-color: #f9f9f9;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        body.loaded {
+            opacity: 1;
         }
         .form-container {
-            background-color: #ffffff;
+            background-color: #86a773;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 600px;
+            max-width: 500px; /* Reduced to 500px */
+            transform: scale(0.9);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            position: relative; /* To position the icons */
+        }
+        .form-container.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        h2 {
+            color: #080808;
+            text-align: center;
+            margin-bottom: 20px;
         }
         .form-group {
             margin-bottom: 15px;
+            position: relative; /* For icon positioning */
         }
         .form-group label {
             display: block;
             margin-bottom: 5px;
+            color: #0e0e0e;
         }
         .form-group input, .form-group select {
             width: 100%;
             padding: 10px;
+            padding-left: 40px; /* Space for the icon */
             box-sizing: border-box;
             border-radius: 4px;
             border: 1px solid #ddd;
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #007bff;
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3);
+        }
+        .form-group .icon {
+            position: absolute;
+            left: 10px;
+            top: 70%;
+            transform: translateY(-50%);
+            color: #070707;
+            font-size: 16px;
         }
         .form-group input[type="radio"] {
             width: auto;
@@ -43,6 +78,7 @@
         .form-group .gender-label {
             display: inline-block;
             margin-right: 10px;
+            color: #0a0a0a;
         }
         .form-group button {
             background-color: #007BFF;
@@ -52,9 +88,36 @@
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
         }
         .form-group button:hover {
             background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        .back-button {
+            background-color: #6c757d;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: block;
+            margin-top: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+            transform: translateY(-3px);
+        }
+        /* Success message styling */
+        #success-message {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+            color: rgb(1, 2, 1);
+            font-weight: bold;
         }
     </style>
 </head>
@@ -62,51 +125,53 @@
 
 <div class="form-container">
     <h2>Enter Teacher Sign Up Details</h2>
-    <form>
+    <form id="signup-form">
         <div class="form-group">
             <label for="name">Name:</label>
+            <i class="fas fa-user icon"></i>
             <input type="text" id="name" name="name" placeholder="Enter your name" required>
         </div>
 
         <div class="form-group">
             <label>Gender:</label>
             <label class="gender-label">
-                <input type="radio" id="male" name="gender" value="male" required>
-                Male
+                <input type="radio" id="male" name="gender" value="male" required> Male
             </label>
             <label class="gender-label">
-                <input type="radio" id="female" name="gender" value="female" required>
-                Female
+                <input type="radio" id="female" name="gender" value="female" required> Female
             </label>
             <label class="gender-label">
-                <input type="radio" id="other" name="gender" value="other" required>
-                Other
+                <input type="radio" id="other" name="gender" value="other" required> Other
             </label>
         </div>
 
         <div class="form-group">
             <label for="department">Department:</label>
-            <input type="text" id="department" name="department" placeholder="Enter your department " required>
-                
+            <i class="fas fa-building icon"></i>
+            <input type="text" id="department" name="department" placeholder="Enter your department" required>
         </div>
 
         <div class="form-group">
             <label for="designation">Designation:</label>
+            <i class="fas fa-tag icon"></i>
             <input type="text" id="designation" name="designation" placeholder="Enter your designation" required>
         </div>
 
         <div class="form-group">
             <label for="email">Email:</label>
+            <i class="fas fa-envelope icon"></i>
             <input type="email" id="email" name="email" placeholder="Enter your email" required>
         </div>
 
         <div class="form-group">
             <label for="contact-number">Contact Number:</label>
+            <i class="fas fa-phone icon"></i>
             <input type="tel" id="contact-number" name="contact-number" placeholder="Enter your contact number" required>
         </div>
 
         <div class="form-group">
             <label for="password">Password:</label>
+            <i class="fas fa-lock icon"></i>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
         </div>
 
@@ -114,7 +179,36 @@
             <button type="submit">Sign Up</button>
         </div>
     </form>
+
+    <!-- Success message -->
+    <div id="success-message">Sign-Up Successful! Redirecting to login page...</div>
+
+    <!-- Back to Login button -->
+    <a href="login.html" class="back-button">Back to Login</a>
 </div>
+
+<script>
+    window.addEventListener('load', () => {
+        document.body.classList.add('loaded');
+        document.querySelector('.form-container').classList.add('visible');
+    });
+
+    // Handle form submission and show success message
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Display the success message
+        document.getElementById('success-message').style.display = 'block';
+
+        // Reset the form
+        this.reset();
+
+        // Redirect to login page after 3 seconds
+        setTimeout(function() {
+            window.location.href = 'login.html'; // Change to the actual login page URL
+        }, 3000);
+    });
+</script>
 
 </body>
 </html>
